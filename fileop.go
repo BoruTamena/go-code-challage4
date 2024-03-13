@@ -7,27 +7,21 @@ import (
 
 func fileOpener(path string) {
 
-	fil, err := os.Open(path) // opening file if exist
+	fil, err := os.OpenFile(path, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0644) // opening file if exist
 
 	if err != nil {
 
-		// creating a new file if file doesn't exist
-		fil, err = os.Create(path)
-
-		if err != nil {
-
-			log.Fatal(err)
-		}
+		log.Fatal(err)
 	}
 
 	defer fil.Close() // closing file
 
-	content := "writing content to file "
+	content := "writing content to file \n"
 
 	_, err = fil.WriteString(content) // writing string content file
 
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("what happen:", err)
 		return
 	}
 
